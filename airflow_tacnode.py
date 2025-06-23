@@ -2,7 +2,6 @@
 from psycopg2.extensions import connection
 from psycopg2.sql import SQL, Identifier
 from airflow.providers.postgres.operators.postgres import PostgresOperator, PostgresHook
-from airflow import DAG
 
 
 ISOLATION_LEVEL_READ_COMMITTED = 'READ COMMITTED'

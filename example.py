@@ -28,7 +28,7 @@ INSERT INTO logs(pid, isolation_level, batch_id) VALUES(pg_backend_pid(), curren
     op1 = TacnodeOperator(
         task_id="test_isolation_level_serializable",
         postgres_conn_id="m2",
-        isolation_level=ISOLATION_LEVEL_READ_COMMITTED
+        isolation_level=ISOLATION_LEVEL_READ_COMMITTED,
         sql=f"""
 INSERT INTO logs(pid, isolation_level, batch_id) VALUES(pg_backend_pid(), current_setting('transaction_isolation')::text, {pid}::text);
 """,
