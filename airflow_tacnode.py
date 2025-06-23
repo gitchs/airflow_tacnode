@@ -40,24 +40,8 @@ class TacnodeOperator(PostgresOperator):
         self.isolation_level = isolation_level
 
     def execute(self, context):
-        self.hook = TacnodeHook(postgres_conn_id=self.postgres_conn_id, schema=self.database, isolation_level=self.isolation_level)
-        if self.runtime_parameters:
-            final_sql = []
-            sql_param = {}
-            for param in self.runtime_parameters:
-                set_param_sql = f"SET {{}} TO %({param})s;"
-                dynamic_sql = SQL(set_param_sql).format(Identifier(f"{param}"))
-                final_sql.append(dynamic_sql)
-            for param, val in self.runtime_parameters.items():
-                sql_param.update({f"{param}": f"{val}"})
-            if self.parameters:
-                sql_param.update(self.parameters)
-            if isinstance(self.sql, str):
-                final_sql.append(SQL(self.sql))
-            else:
-                final_sql.extend(list(map(SQL, self.sql)))
-            self.hook.run(final_sql, self.autocommit, parameters=sql_param)
-        else:
-            self.hook.run(self.sql, self.autocommit, parameters=self.parameters)
+        self.log.info('Executing: %s', self.sql)
+        self.hook = TacnodeHook(postgres_conn_id=self.postgres_conn_id, schema=self.database)
+        self.hook.run(self.sql, self.autocommit, parameters=self.parameters)
         for output in self.hook.conn.notices:
             self.log.info(output)
