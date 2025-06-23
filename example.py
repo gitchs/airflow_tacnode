@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 import datetime
 import os
-from functools import wraps
-from psycopg2.extensions import connection
-from psycopg2.sql import SQL, Identifier
 from airflow import DAG
 
 # from airflow.providers.postgres.operators.postgres import PostgresOperator
@@ -17,7 +14,7 @@ with DAG(
     schedule_interval=None,
     catchup=False,
 ) as dag:
-    
+
     pid = os.getpid()
     op0 = TacnodeOperator(
         task_id="test_isolation_level_default",

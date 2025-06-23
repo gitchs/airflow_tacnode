@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import datetime
-import os
-from functools import wraps
 from psycopg2.extensions import connection
 from psycopg2.sql import SQL, Identifier
 from airflow.providers.postgres.operators.postgres import PostgresOperator, PostgresHook
