@@ -41,7 +41,7 @@ class TacnodeOperator(PostgresOperator):
 
     def execute(self, context):
         self.log.info('Executing: %s', self.sql)
-        self.hook = TacnodeHook(postgres_conn_id=self.postgres_conn_id, schema=self.database)
+        self.hook = TacnodeHook(postgres_conn_id=self.postgres_conn_id, schema=self.database, isolation_level=self.isolation_level)
         self.hook.run(self.sql, self.autocommit, parameters=self.parameters)
         for output in self.hook.conn.notices:
             self.log.info(output)
